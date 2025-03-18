@@ -11,6 +11,7 @@ import { Maximize2 } from "lucide-react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { gruvboxDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { cn } from "@/lib/utils";
 
 // Move these functions outside of the component to avoid recreating them on each render
 const createGoToNextSlide =
@@ -154,13 +155,16 @@ export default function QuackApp() {
             </div>
 
             <Card className="flex-1 flex flex-col overflow-hidden">
-              <div className="flex-1 overflow-auto p-8 flex items-center justify-center">
-                <div className="prose dark:prose-invert max-w-none w-full">
-                  {slides[currentSlide] && (
-                    <ReactMarkdown components={components}>
-                      {slides[currentSlide]}
-                    </ReactMarkdown>
-                  )}
+              <div className="relative flex-1">
+                <div className="absolute inset-0 bg-[url('/grid.svg')] bg-repeat opacity-10" />
+                <div className="relative z-10 h-full overflow-auto p-8 flex items-center justify-center">
+                  <div className="prose dark:prose-invert max-w-none w-full">
+                    {slides[currentSlide] && (
+                      <ReactMarkdown components={components}>
+                        {slides[currentSlide]}
+                      </ReactMarkdown>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -181,11 +185,11 @@ export default function QuackApp() {
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="max-w-[90vw] max-h-[90vh] min-w-[90vw] min-h-[90vh] p-0">
-                    <div className="relative flex items-center justify-center h-[80vh]">
+                    <div className="relative w-full h-[80vh] flex">
                       <Button
                         variant="outline"
                         size="icon"
-                        className="absolute left-0 rounded-full h-10 w-10"
+                        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 rounded-full h-10 w-10"
                         onClick={goToPreviousSlide}
                         disabled={currentSlide === 0}
                       >
@@ -193,20 +197,23 @@ export default function QuackApp() {
                         <span className="sr-only">Previous slide</span>
                       </Button>
 
-                      <div className="overflow-auto p-8 w-full h-full flex items-center justify-center">
-                        <div className="prose dark:prose-invert max-w-4xl mx-auto w-full">
-                          {slides[currentSlide] && (
-                            <ReactMarkdown components={components}>
-                              {slides[currentSlide]}
-                            </ReactMarkdown>
-                          )}
+                      <div className="relative flex-1">
+                        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-repeat opacity-10" />
+                        <div className="relative z-10 h-full overflow-auto p-8 flex items-center justify-center">
+                          <div className="prose dark:prose-invert max-w-4xl mx-auto w-full">
+                            {slides[currentSlide] && (
+                              <ReactMarkdown components={components}>
+                                {slides[currentSlide]}
+                              </ReactMarkdown>
+                            )}
+                          </div>
                         </div>
                       </div>
 
                       <Button
                         variant="outline"
                         size="icon"
-                        className="absolute right-4 rounded-full h-10 w-10"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 rounded-full h-10 w-10"
                         onClick={goToNextSlide}
                         disabled={currentSlide === slides.length - 1}
                       >
