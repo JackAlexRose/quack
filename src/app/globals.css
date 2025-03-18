@@ -166,3 +166,15 @@ h4 {
 .prose ul > li::marker {
   color: rgb(55 65 81); /* text-gray-700 for light mode */
 }
+
+/* Style inline code blocks */
+.prose code:not(pre code) {
+  background-color: oklch(0.95 0 0);
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}
+
+.dark .prose code:not(pre code) {
+  background-color: oklch(0.25 0 0);
+}
