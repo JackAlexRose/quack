@@ -12,6 +12,12 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { gruvboxDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { motion } from "motion/react";
+import {
+  cn,
+  scaleTransitionClass,
+  hoverScaleClass,
+  activeScaleClass,
+} from "@/lib/utils";
 
 // Move these functions outside of the component to avoid recreating them on each render
 const createGoToNextSlide =
@@ -248,13 +254,27 @@ export default function QuackApp() {
                   variant="outline"
                   onClick={goToPreviousSlide}
                   disabled={currentSlide === 0}
+                  className={cn(
+                    "rounded-lg bg-primary px-4 py-2 text-white",
+                    scaleTransitionClass,
+                    hoverScaleClass,
+                    activeScaleClass
+                  )}
                 >
                   <ChevronLeft className="mr-2 h-4 w-4" />
                   Previous
                 </Button>
                 <Dialog open={isFullscreen} onOpenChange={setIsFullscreen}>
                   <DialogTrigger asChild>
-                    <Button variant="outline">
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "rounded-lg bg-primary px-4 py-2 text-white",
+                        scaleTransitionClass,
+                        hoverScaleClass,
+                        activeScaleClass
+                      )}
+                    >
                       <Maximize2 className="mr-2 h-4 w-4" />
                       Enlarge
                     </Button>
@@ -264,9 +284,14 @@ export default function QuackApp() {
                       <Button
                         variant="outline"
                         size="icon"
-                        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 rounded-full h-10 w-10"
                         onClick={goToPreviousSlide}
                         disabled={currentSlide === 0}
+                        className={cn(
+                          "absolute left-4 top-1/2 -translate-y-1/2 z-20 rounded-full h-10 w-10",
+                          scaleTransitionClass,
+                          hoverScaleClass,
+                          activeScaleClass
+                        )}
                       >
                         <ChevronLeft className="h-6 w-6" />
                         <span className="sr-only">Previous slide</span>
@@ -296,9 +321,14 @@ export default function QuackApp() {
                       <Button
                         variant="outline"
                         size="icon"
-                        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 rounded-full h-10 w-10"
                         onClick={goToNextSlide}
                         disabled={currentSlide === slides.length - 1}
+                        className={cn(
+                          "absolute right-4 top-1/2 -translate-y-1/2 z-20 rounded-full h-10 w-10",
+                          scaleTransitionClass,
+                          hoverScaleClass,
+                          activeScaleClass
+                        )}
                       >
                         <ChevronRight className="h-6 w-6" />
                         <span className="sr-only">Next slide</span>
@@ -307,8 +337,15 @@ export default function QuackApp() {
                   </DialogContent>
                 </Dialog>
                 <Button
+                  variant="outline"
                   onClick={goToNextSlide}
                   disabled={currentSlide === slides.length - 1}
+                  className={cn(
+                    "rounded-lg bg-primary px-4 py-2 text-white",
+                    scaleTransitionClass,
+                    hoverScaleClass,
+                    activeScaleClass
+                  )}
                 >
                   Next
                   <ChevronRight className="ml-2 h-4 w-4" />

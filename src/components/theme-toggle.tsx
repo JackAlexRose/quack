@@ -8,6 +8,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  activeScaleClass,
+  hoverScaleClass,
+  scaleTransitionClass,
+} from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 export function ThemeToggle() {
@@ -16,7 +22,16 @@ export function ThemeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className="relative">
+        <Button
+          variant="outline"
+          size="icon"
+          className={cn(
+            "relative",
+            scaleTransitionClass,
+            hoverScaleClass,
+            activeScaleClass
+          )}
+        >
           <Image
             src="/favicon.ico"
             alt="Theme toggle light"
