@@ -271,7 +271,7 @@ export default function QuackApp() {
             <li>
               Add code blocks with triple backticks and language name:
               <pre className="text-sm">
-                ```javascript console.log("Hello!");
+                ```javascript console.log(&quot;Hello!&quot;);
               </pre>
             </li>
           </ul>
