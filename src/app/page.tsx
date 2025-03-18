@@ -11,27 +11,64 @@ import { Maximize2 } from "lucide-react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { gruvboxDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { cn } from "@/lib/utils";
+import { motion } from "motion/react";
 
 // Move these functions outside of the component to avoid recreating them on each render
 const createGoToNextSlide =
   (
     currentSlide: number,
     slides: string[],
-    setCurrentSlide: (slide: number) => void
+    setCurrentSlide: (slide: number) => void,
+    setDirection: (direction: number) => void
   ) =>
   () => {
     if (currentSlide < slides.length - 1) {
       setCurrentSlide(currentSlide + 1);
+      setDirection(1);
     }
   };
 
 const createGoToPreviousSlide =
-  (currentSlide: number, setCurrentSlide: (slide: number) => void) => () => {
+  (
+    currentSlide: number,
+    setCurrentSlide: (slide: number) => void,
+    setDirection: (direction: number) => void
+  ) =>
+  () => {
     if (currentSlide > 0) {
       setCurrentSlide(currentSlide - 1);
+      setDirection(-1);
     }
   };
+
+// Animation variants
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 1000 : -1000,
+    opacity: 0,
+    scale: 0.9,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+    scale: 1,
+    transition: {
+      x: { type: "spring", stiffness: 300, damping: 30 },
+      opacity: { duration: 0.2 },
+      scale: { duration: 0.2 },
+    },
+  },
+  exit: (direction: number) => ({
+    x: direction < 0 ? 1000 : -1000,
+    opacity: 0,
+    scale: 0.9,
+    transition: {
+      x: { type: "spring", stiffness: 300, damping: 30 },
+      opacity: { duration: 0.2 },
+      scale: { duration: 0.2 },
+    },
+  }),
+};
 
 const EXAMPLE_PROMPT = `Create a slideshow presentation about [your topic] using markdown formatting. Separate each slide with three hyphens (---). Include:
 
@@ -55,16 +92,19 @@ export default function QuackApp() {
   const [slides, setSlides] = useState<string[]>([]);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const [direction, setDirection] = useState(0); // -1 for left, 1 for right, 0 for initial
 
   // Create memoized navigation functions
   const goToNextSlide = createGoToNextSlide(
     currentSlide,
     slides,
-    setCurrentSlide
+    setCurrentSlide,
+    setDirection
   );
   const goToPreviousSlide = createGoToPreviousSlide(
     currentSlide,
-    setCurrentSlide
+    setCurrentSlide,
+    setDirection
   );
 
   // Parse markdown into slides whenever it changes
@@ -155,7 +195,15 @@ export default function QuackApp() {
             </div>
 
             <Card className="flex-1 flex flex-col overflow-hidden">
-              <div className="relative flex-1">
+              <motion.div
+                key={currentSlide}
+                className="relative flex-1"
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                custom={direction}
+              >
                 <div className="absolute inset-0 bg-[url('/grid.svg')] bg-repeat opacity-10" />
                 <div className="relative z-10 h-full overflow-auto p-8 flex items-center justify-center">
                   <div className="prose dark:prose-invert max-w-none w-full">
@@ -166,7 +214,7 @@ export default function QuackApp() {
                     )}
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               <div className="border-t p-4 flex justify-between">
                 <Button
@@ -184,7 +232,7 @@ export default function QuackApp() {
                       Enlarge
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-[90vw] max-h-[90vh] min-w-[90vw] min-h-[90vh] p-0">
+                  <DialogContent className="max-w-[90vw] max-h-[90vh] min-w-[90vw] min-h-[90vh] p-0 overflow-hidden">
                     <div className="relative w-full h-[80vh] flex">
                       <Button
                         variant="outline"
@@ -197,7 +245,15 @@ export default function QuackApp() {
                         <span className="sr-only">Previous slide</span>
                       </Button>
 
-                      <div className="relative flex-1">
+                      <motion.div
+                        key={currentSlide}
+                        className="relative flex-1"
+                        variants={slideVariants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        custom={direction}
+                      >
                         <div className="absolute inset-0 bg-[url('/grid.svg')] bg-repeat opacity-10" />
                         <div className="relative z-10 h-full overflow-auto p-8 flex items-center justify-center">
                           <div className="prose dark:prose-invert max-w-4xl mx-auto w-full">
@@ -208,7 +264,7 @@ export default function QuackApp() {
                             )}
                           </div>
                         </div>
-                      </div>
+                      </motion.div>
 
                       <Button
                         variant="outline"

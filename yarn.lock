@@ -2711,6 +2711,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"framer-motion@npm:^12.5.0":
+  version: 12.5.0
+  resolution: "framer-motion@npm:12.5.0"
+  dependencies:
+    motion-dom: ^12.5.0
+    motion-utils: ^12.5.0
+    tslib: ^2.4.0
+  peerDependencies:
+    "@emotion/is-prop-valid": "*"
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: aebf78b75000c783d12a8ae2534e62f0a5781490c0cfdf39c051b6dee2c7e11a5b8dd1077cc659e55dc24f582aa5d620c28999f3c17e17d38e49b14c6298d86b
+  languageName: node
+  linkType: hard
+
 "function-bind@npm:^1.1.2":
   version: 1.1.2
   resolution: "function-bind@npm:1.1.2"
@@ -4049,6 +4071,43 @@ __metadata:
   languageName: node
   linkType: hard
 
+"motion-dom@npm:^12.5.0":
+  version: 12.5.0
+  resolution: "motion-dom@npm:12.5.0"
+  dependencies:
+    motion-utils: ^12.5.0
+  checksum: abe92c72fb09eba9a6071fb77aa2020d1489df31c2291f5e3ff15def091d8b2bacb8a60854c5617f40f99e70178c0407519ca846a57e48051c4f49808e0f5927
+  languageName: node
+  linkType: hard
+
+"motion-utils@npm:^12.5.0":
+  version: 12.5.0
+  resolution: "motion-utils@npm:12.5.0"
+  checksum: 347169ab97d8b3720b363afad6c9f4e8999490d1d95c70aaa8f83333be1b8b4e11c5f25564a9809fb091160fad2184403222e5b383be1bba004243c8b47497fe
+  languageName: node
+  linkType: hard
+
+"motion@npm:^12.5.0":
+  version: 12.5.0
+  resolution: "motion@npm:12.5.0"
+  dependencies:
+    framer-motion: ^12.5.0
+    tslib: ^2.4.0
+  peerDependencies:
+    "@emotion/is-prop-valid": "*"
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: a32231ea53a3f3b659630a86b40b5cd61daaa4428db06746c7aa06124c6c27ba2772a6482d652d1b4c71d2d9f01e30602eb700655f32fd1c0ccba74b1695fd8c
+  languageName: node
+  linkType: hard
+
 "ms@npm:^2.1.1, ms@npm:^2.1.3":
   version: 2.1.3
   resolution: "ms@npm:2.1.3"
@@ -4451,6 +4510,7 @@ __metadata:
     eslint: ^9
     eslint-config-next: 15.2.3
     lucide-react: 0.482.0
+    motion: ^12.5.0
     next: 15.2.3
     react: ^19.0.0
     react-dom: ^19.0.0
