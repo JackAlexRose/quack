@@ -120,9 +120,11 @@ export default function QuackApp() {
       // Skip if focus is in the textarea
       if (document.activeElement?.tagName === "TEXTAREA") return;
 
-      if (e.key === "ArrowRight") {
+      if (e.key === "ArrowRight" || (e.key === " " && !e.repeat)) {
+        e.preventDefault(); // Prevent space from scrolling
         goToNextSlide();
       } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
         goToPreviousSlide();
       }
     };
@@ -131,7 +133,32 @@ export default function QuackApp() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [goToNextSlide, goToPreviousSlide]); // Dependencies now include the navigation functions
+  }, [goToNextSlide, goToPreviousSlide]);
+
+  // Add scroll navigation for fullscreen mode
+  useEffect(() => {
+    if (!isFullscreen) return;
+
+    let lastScrollTime = Date.now();
+    const scrollThreshold = 500; // ms between scroll events
+
+    const handleScroll = (e: WheelEvent) => {
+      const now = Date.now();
+      if (now - lastScrollTime < scrollThreshold) return;
+
+      if (e.deltaY > 0) {
+        goToNextSlide();
+      } else if (e.deltaY < 0) {
+        goToPreviousSlide();
+      }
+      lastScrollTime = now;
+    };
+
+    window.addEventListener("wheel", handleScroll);
+    return () => {
+      window.removeEventListener("wheel", handleScroll);
+    };
+  }, [isFullscreen, goToNextSlide, goToPreviousSlide]);
 
   // Custom components for ReactMarkdown
   const components = {
